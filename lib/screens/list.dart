@@ -9,7 +9,7 @@ class List extends StatefulWidget {
 }
 
 class ListState extends State<List> {
-  var _isLoading = false;
+//  var _isLoading = false;
 
 //  @override
 //  void didChangeDependencies() {
@@ -21,12 +21,12 @@ class ListState extends State<List> {
   @override
   void initState() {
     // TODO: implement initState
-    Provider.of<ProfileProvider>(context, listen: false).fetchData()
-        .then((value) {
-      setState(() {
-        _isLoading = !_isLoading;
-      });
-    });
+    Provider.of<ProfileProvider>(context, listen: false).fetchData();
+//        .then((value) {
+//      setState(() {
+//        _isLoading = !_isLoading;
+//      });
+//    });
     super.initState();
   }
 
@@ -55,9 +55,7 @@ class ListState extends State<List> {
             ),
           ),
           Expanded(
-            child: _isLoading ? Center(
-              child: CircularProgressIndicator(),
-            ) : provider.length == 0 ? Container(
+            child: provider.length == 0 ? Container(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,

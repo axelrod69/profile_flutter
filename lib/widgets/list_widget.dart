@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 
 class ListWidget extends StatelessWidget {
-  final String userName;
-  final String name;
-  final String emailId;
-  final int timePeriod;
-  final int age;
-  final String nationality;
-  final String number;
-  final int streetNumber;
-  final String streetName;
-  final String city;
-  final String country;
+  final String? userName;
+  final String? name;
+  final String? emailId;
+  final int? timePeriod;
+  final int? age;
+  final String? nationality;
+  final String? number;
+  final int? streetNumber;
+  final String? streetName;
+  final String? city;
+  final String? country;
 //  final int postCode;
-  final String picture;
+  final String? picture;
 
   ListWidget(
       this.userName,
@@ -169,7 +169,7 @@ class ListWidget extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                      "User for ${age - timePeriod} Years",
+                                      "User for ${age! - timePeriod!} Years",
                                       style: TextStyle(
                                         color: Colors.black,
                                         fontSize: 20,
@@ -212,7 +212,7 @@ class ListWidget extends StatelessWidget {
                                   ),
                                   SizedBox(height: 8),
                                   Text(
-                                      "${city + "," + country}",
+                                      "${city! + "," + country!}",
                                       style: TextStyle(fontSize: 15)
                                   ),
                                   SizedBox(height: 12),

@@ -15,23 +15,24 @@ class Profile {
   final String streetName;
   final String city;
   final String country;
-  final int postCode;
+
+//  final int postCode;
   final String picture;
 
-  Profile(
-      {required this.userName,
-      required this.name,
-      required this.emailId,
-      required this.timePeriod,
-      required this.age,
-      required this.nationality,
-      required this.number,
-      required this.streetNumber,
-      required this.streetName,
-      required this.city,
-      required this.country,
-      required this.postCode,
-      required this.picture});
+  Profile({required this.userName,
+    required this.name,
+    required this.emailId,
+    required this.timePeriod,
+    required this.age,
+    required this.nationality,
+    required this.number,
+    required this.streetNumber,
+    required this.streetName,
+    required this.city,
+    required this.country,
+//      required this.postCode,
+    required this.picture
+  });
 }
 
 class ProfileProvider with ChangeNotifier {
@@ -46,6 +47,32 @@ class ProfileProvider with ChangeNotifier {
     final response = await http.get(url);
     final extractedData = json.decode(response.body);
     print(extractedData);
+    Map<String, Profile> map = {};
+    extractedData['results'].forEach((value) =>
+        map.putIfAbsent(value['login']['uuid'], () =>
+            Profile(
+                userName: value['login']['username'],
+                name: value['name']['first'],
+                emailId: value['email'],
+                timePeriod: value['registered']['age'],
+                age: value['dob']['age'],
+                nationality: value['nat'],
+                number: value['cell'],
+                streetNumber: value['location']['street']['number'],
+                streetName: value['location']['street']['name'],
+                city: value['location']['city'],
+                country: value['location']['country'],
+                picture: value['picture']['large']
+            )
+        )
+    );
+    _data = map;
+    print(_data);
+    notifyListeners();
+  }
+}
+
+
 //    final result = (extractedData['results'] as List<dynamic>)
 //        .map((value) => Profile(
 //        userName: value['login']['username'],
@@ -62,29 +89,54 @@ class ProfileProvider with ChangeNotifier {
 ////        postCode: value['location']['postcode'] as int,
 //        picture: value['picture']['large']
 //    )).toList();
-    Map<String, Profile> map = {};
-    extractedData.forEach((key, value) => //51:19
-        map.putIfAbsent(
-            key,
-            () => //52:13
-                Profile(
-                    userName: value['results'].login.username, //54:32
-                    name: value['results'].name.first,
-                    emailId: value['results'].email,
-                    timePeriod: value['results'].registered.age,
-                    age: value['results'].dob.age,
-                    nationality: value['results'].nat,
-                    number: value['results'].cell,
-                    streetNumber: value['results'].location.street.number,
-                    streetName: value['results'].location.street.name,
-                    city: value['results'].location.city,
-                    country: value['results'].location.country,
-                    postCode: value['results'].location.postcode,
-                    picture: value['results'].picture.large)));
+//    Map<String, Profile> map = {};
+//    extractedData.forEach((key, value) => //51:19
+//        map.putIfAbsent(
+//            key,
+//            () => //52:13
+//                Profile(
+//                    userName: value['results'].login.username, //54:32
+//                    name: value['results'].name.first,
+//                    emailId: value['results'].email,
+//                    timePeriod: value['results'].registered.age,
+//                    age: value['results'].dob.age,
+//                    nationality: value['results'].nat,
+//                    number: value['results'].cell,
+//                    streetNumber: value['results'].location.street.number,
+//                    streetName: value['results'].location.street.name,
+//                    city: value['results'].location.city,
+//                    country: value['results'].location.country,
+//                    postCode: value['results'].location.postcode,
+//                    picture: value['results'].picture.large)));
+//
+//    print(_data);
+//
+//    _data = map;
+//    notifyListeners();
 
-    print(_data);
 
-    _data = map;
-    notifyListeners();
-  }
-}
+
+//fixed solution
+//    Profile profile;
+//    extractedData['results'].forEach((value) {
+//      print(value['login']['uuid']);
+//      print(value['name']['first']);
+//      profile = Profile(
+//          emailId: value['email'],
+//          userName: value['login']['username'], //54:32
+//          name: value['name']['first'],
+//          timePeriod: value['registered']['age'],
+//          age: value['dob']['age'],
+//          nationality: value['nat'],
+//          number: value['cell'],
+//          streetNumber: value['location']['street']['number'],
+//          streetName: value['location']['street']['name'],
+//          city: value['location']['city'],
+//          country: value['location']['country'],
+////postCode: value['location']['postcode'],
+//          picture: value['picture']['large']);
+//      map.putIfAbsent(
+//          value['login']['uuid'],
+//          () => //52:13
+//              profile);
+//    });
